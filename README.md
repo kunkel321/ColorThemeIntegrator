@@ -1,9 +1,11 @@
 # Color Theme Integrator
 
-![Screenshot of main window](https://i.imgur.com/BJaONaj.png))
+![Screenshot of main window](https://github.com/kunkel321/ColorThemeIntegrator/blob/main/ColorThemeIntScreenShot.png))
 
-Kunkel321: 8-16-2024
-https://github.com/kunkel321/ColorThemeMaker
+Kunkel321: 8-18-2024
+
+https://github.com/kunkel321/ColorThemeIntegrator
+
 https://www.autohotkey.com/boards/viewtopic.php?f=83&t=132310
 
 WhiteColorBlackGradient function is based on ColorGradient() by Lateralus138 and Teadrinker. 
