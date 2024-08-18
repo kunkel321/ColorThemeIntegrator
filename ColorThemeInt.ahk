@@ -3,8 +3,8 @@
 
 /*
 Color Theme Integrator
-Kunkel321: 8-16-2024
-https://github.com/kunkel321/ColorThemeMaker
+Kunkel321: 8-18-2024
+https://github.com/kunkel321/ColorThemeIntegrator
 https://www.autohotkey.com/boards/viewtopic.php?f=83&t=132310
 
 WhiteColorBlackGradient function is based on ColorGradient() by Lateralus138 and Teadrinker. 
@@ -106,9 +106,9 @@ myGui.BackColor := formColor
 pattern := myGui.Add("Text", "x14 W215 Center","`n" guiTitle)
 pattern.SetFont("bold")
 
-myRadRGB := myGui.Add("Radio", "x50  Checked" myRadRGBVal, "RGB")
+myRadRGB := myGui.Add("Radio", "x50 c" fontColor " Checked" myRadRGBVal, "RGB")
 myRadRGB.OnEvent("Click", colorChanged)
-myRadCYM := myGui.Add("Radio", "x+30 Checked" myRadCYMVal, "CYM")
+myRadCYM := myGui.Add("Radio", "x+30 c" fontColor " Checked" myRadCYMVal, "CYM")
 myRadCYM.OnEvent("Click", colorChanged)
 
 myGui.Add("Text","x14 ","Reference:")
@@ -124,9 +124,9 @@ sEdit := myGui.Add("Edit", "w50 x+5 Background" listColor)
 sSteps := myGui.Add("UpDown", " Range-60-60", sStepsVal) 
 sSteps.OnEvent("change", colorChanged)
 
-myRadLight := myGui.Add("Radio", "x50 Checked" myRadLightVal, "Light")
+myRadLight := myGui.Add("Radio", "x50 c" fontColor " Checked" myRadLightVal, "Light")
 myRadLight.OnEvent("Click", shadeChanged)
-myRadDark := myGui.Add("Radio", "x+30 Checked" myRadDarkVal, "Dark")
+myRadDark := myGui.Add("Radio", "x+30 c" fontColor "  Checked" myRadDarkVal, "Dark")
 myRadDark.OnEvent("Click", shadeChanged)
 
 myGui.SetFont("s10")
