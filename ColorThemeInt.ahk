@@ -3,7 +3,7 @@
 
 /*
 Color Theme Integrator
-Kunkel321: 8-18-2024
+Kunkel321: 9-2-2024
 https://github.com/kunkel321/ColorThemeIntegrator
 https://www.autohotkey.com/boards/viewtopic.php?f=83&t=132310
 
@@ -60,7 +60,7 @@ saturationSteps     := 30           ; Change number of steps, if desired.
 ; *** REPLACE BELOW SCRIPT NAMES/PATHS WITH YOUR OWN ***
 restartTheseScripts := " ; Path not needed if they are in same folder as this script.
 (           
-AutoCorrect2.exe  
+AutoCorrect2.exe
 HotKeyTool.exe
 MCLogger.exe
 WayText\WayText.exe
@@ -72,12 +72,7 @@ TraySetIcon("shell32.dll",131)      ; Change tray icon, if desired.
 
 settingsFile := A_ScriptDir . "\colorThemeSettings.ini" ; Assumes that file is in same location as this script.
 
-If not FileExist(settingsFile) { ; If ini file doesn't exist, just use these default values. 
-	formColor := "0x550000", listColor := "0xC4E1A4", fontColor := "0x92B0C3", warnColor := "0xFF8080", myRadRGBVal := "0", myRadCYMVal := "1", color1Val := "1", myReferenceVal := "1", sStepsVal := "10", myRadLightVal := "1", myRadDarkVal := "0", FontShadeStepsVal := "25", FontSaturationStepsVal := "30", ListShadeStepsVal := "6", ListSaturationStepsVal := "30", FormShadeStepsVal := "5", FormSaturationStepsVal := "30", customList := ""
-        setColorArrays() ; The arrays are large, so I put them at the bottom.  
-        colorArray := additiveRGB
-}
-Else { 
+If FileExist(settingsFile) {
     fontColor                := IniRead(settingsFile, "ColorSettings", "fontColor")
     listColor                := IniRead(settingsFile, "ColorSettings", "listColor")
     formColor                := IniRead(settingsFile, "ColorSettings", "formColor")
@@ -96,8 +91,14 @@ Else {
     ListShadeStepsVal        := IniRead(settingsFile, "ColorSettings", "ListShadeSteps")
     ListSaturationStepsVal   := IniRead(settingsFile, "ColorSettings", "ListSaturationSteps")
     FormShadeStepsVal        := IniRead(settingsFile, "ColorSettings", "FormShadeSteps")
-    FormSaturationStepsVal   := IniRead(settingsFile, "ColorSettings", "FormSaturationSteps")
+    FormSaturationStepsVal   := IniRead(settingsFile, "ColorSettings", "FormSaturationSteps")	
 }
+Else {  ; If ini file doesn't exist, just use these default values. 
+    formColor := "0x550000", listColor := "0xC4E1A4", fontColor := "0x92B0C3", warnColor := "0xFF8080", myRadRGBVal := "0", myRadCYMVal := "1", color1Val := "1", myReferenceVal := "1", sStepsVal := "10", myRadLightVal := "1", myRadDarkVal := "0", FontShadeStepsVal := "25", FontSaturationStepsVal := "30", ListShadeStepsVal := "6", ListSaturationStepsVal := "30", FormShadeStepsVal := "5", FormSaturationStepsVal := "30", customList := ""
+        setColorArrays() ; The arrays are large, so I put them at the bottom.  
+        colorArray := additiveRGB
+}
+
 ; --- Build gui ---
 global myGui := Gui(pinToTop? "+AlwaysOnTop" : "", guiTitle)
 ;myGui.SetFont("s12 " fontColor? " c" fontColor : "")
@@ -107,9 +108,9 @@ pattern := myGui.Add("Text", "x14 W215 Center","`n" guiTitle)
 pattern.SetFont("bold")
 
 myRadRGB := myGui.Add("Radio", "x50 c" fontColor " Checked" myRadRGBVal, "RGB")
-myRadRGB.OnEvent("Click", colorChanged)
+myRadRGB.OnEvent("Click", wheelChanged)
 myRadCYM := myGui.Add("Radio", "x+30 c" fontColor " Checked" myRadCYMVal, "CYM")
-myRadCYM.OnEvent("Click", colorChanged)
+myRadCYM.OnEvent("Click", wheelChanged)
 
 myGui.Add("Text","x14 ","Reference:")
 global color1 := myGui.Add("ComboBox", "x+5 w110 Background" listColor " Choose" Color1Val, colorArray) 
@@ -191,11 +192,13 @@ myGui.OnEvent("Escape", (*) => myGui.Hide()) ; If user presses escape while gui 
 ; Main hotkey shows/hides gui.
 Hotkey(myHotKey, showHideTool) 
 showHideTool(*) { 
-    If WinActive(guiTitle)
+    If WinActive(guiTitle) {
         myGui.Hide()
-    Else 
+    }
+    Else {
         colorChanged()
         myGui.Show("x" A_ScreenWidth /5*3) ; Show off center.
+    }
 }
 
 ; If user changes light/dark radio, set 3 shade spinners.
@@ -274,10 +277,8 @@ listClick(*) {
         Global customList .= color ","
 }
 
-; This is the main function that updates the colors in the gui and does several calculations. 
-colorChanged(*) {    
-    splitSteps := sSteps.Value
-
+; This function is called if the RGB/CYM radios are clicked. 
+wheelChanged(*) {
     If myRadRGB.Value = 1 {
         colorArray := additiveRGB   
         refIndex := color1.Value
@@ -292,6 +293,14 @@ colorChanged(*) {
         color1.Add(colorArray) ; Add new items
         color1.Value := refIndex
     }
+    colorChanged()
+}
+
+; This is the main function that updates the colors in the gui and does several calculations. 
+colorChanged(*) {    
+    splitSteps := sSteps.Value
+
+    refIndex := color1.Value
 
     refIndex := color1.Value
     reference := color1.Text
