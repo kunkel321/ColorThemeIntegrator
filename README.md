@@ -1,4 +1,6 @@
 # Color Theme Integrator
+#Update 11-5-2024:  This project got absorbed into the AutoCorrect2 package...
+https://github.com/kunkel321/AutoCorrect2
 
 ![Screenshot of main window](https://github.com/kunkel321/ColorThemeIntegrator/blob/main/ColorThemeIntScreenShot.png))
 
